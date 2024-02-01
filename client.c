@@ -21,7 +21,7 @@ int main() {
 
     // サーバーアドレスを設定
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");  // サーバーのIPアドレス
+    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
     serverAddr.sin_port = htons(PORT);
 
     // サーバーに接続
@@ -33,9 +33,9 @@ int main() {
     do {
         // 選択を入力
         char selectNumber[5];
-        printf("あなたはプレーヤーAです\n");
+        // printf("あなたはプレーヤーAです\n");
         printf("数値を4桁で入力してください: ");
-        scanf(" %4s", &selectNumber);
+        scanf(" %4s", selectNumber);
 
         // 選択をサーバーに送信
         send(clientSocket, &selectNumber, sizeof(selectNumber), 0);
@@ -46,7 +46,7 @@ int main() {
 
         // もう一度プレイするかどうかを尋ねる
         char playAgain;
-        printf("もう一度プレイしますか？ (y/n): ");
+        printf("次の入力を行いますか？ (y/n): ");
         scanf(" %c", &playAgain);
 
         // サーバーにプレイの意志を送信

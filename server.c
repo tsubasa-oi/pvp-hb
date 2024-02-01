@@ -8,7 +8,7 @@
 #define PORT 12345
 #define BUFFER_SIZE 1024
 
-// グローバル変数を定義
+// グローバル変数
 int firstNum;
 int secondNum;
 int thirdNum;
@@ -40,7 +40,6 @@ void fourNumberGen(){
 void hitAndBrow(const char *client1Choice, const char *client2Choice, char *result1P, char *result2P) {
     // 使う変数を一旦定義しておく
     int arraySize = 4;
-    int total;
     int inputArray1P[4];
     int inputArray2P[4];
     int hit1P;
@@ -168,13 +167,13 @@ int main() {
     serverAddr.sin_addr.s_addr = INADDR_ANY;
     serverAddr.sin_port = htons(PORT);
 
-    // ソケットにバインド
+    // バインド
     if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == -1) {
         perror("バインドに失敗しました");
         exit(EXIT_FAILURE);
     }
 
-    // 接続待機
+    // リッスン
     if (listen(serverSocket, 2) == -1) {
         perror("接続待機に失敗しました");
         exit(EXIT_FAILURE);
@@ -204,17 +203,15 @@ int main() {
 
     // 結果をクライアントに送信
     if (send(client1Socket, result1P, strlen(result1P) + 1, 0) == -1) {
-        perror("client1Socket send error");
-        // エラー処理を追加するか、適切に対処する必要があります
+        perror("クライアント1への送信エラーです");
     }
 
     if (send(client2Socket, result2P, strlen(result2P) + 1, 0) == -1) {
-        perror("client2Socket send error");
-        // エラー処理を追加するか、適切に対処する必要があります
+        perror("クライアント2への送信エラーです");
     }
 
 
-    // クライアントに再プレイの意志を問い合わせ
+    // クライアントに続行するかどうか確認
     char playAgain1, playAgain2;
     recv(client1Socket, &playAgain1, sizeof(char), 0);
     recv(client2Socket, &playAgain2, sizeof(char), 0);
@@ -222,8 +219,6 @@ int main() {
     if (playAgain1 != 'y' && playAgain1 != 'Y' && playAgain2 != 'y' && playAgain2 != 'Y') {
             break;  // 終了
         }
-
-    
 
     } while (1);
 
